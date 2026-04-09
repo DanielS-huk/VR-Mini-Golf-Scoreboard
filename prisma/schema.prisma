@@ -1,0 +1,101 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Difficulty {
+  EASY
+  HARD
+}
+
+model Player {
+  id           Int           @id @default(autoincrement())
+  name         String        @unique
+  roundPlayers RoundPlayer[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model CourseGroup {
+  id        Int            @id @default(autoincrement())
+  name      String         @unique
+  layouts   CourseLayout[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+}
+
+model CourseLayout {
+  id            Int           @id @default(autoincrement())
+  courseGroupId Int
+  difficulty    Difficulty
+  displayName   String
+  courseGroup   CourseGroup   @relation(fields: [courseGroupId], references: [id], onDelete: Restrict)
+  holes         Hole[]
+  rounds        Round[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@unique([courseGroupId, difficulty])
+  @@unique([displayName])
+  @@index([difficulty])
+}
+
+model Hole {
+  id             Int         @id @default(autoincrement())
+  courseLayoutId Int
+  number         Int
+  par            Int
+  courseLayout   CourseLayout @relation(fields: [courseLayoutId], references: [id], onDelete: Cascade)
+  holeScores     HoleScore[]
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  @@unique([courseLayoutId, number])
+  @@index([courseLayoutId])
+}
+
+model Round {
+  id             Int           @id @default(autoincrement())
+  courseLayoutId Int
+  playedAt       DateTime
+  notes          String?
+  courseLayout   CourseLayout  @relation(fields: [courseLayoutId], references: [id], onDelete: Restrict)
+  players        RoundPlayer[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([courseLayoutId, playedAt])
+  @@index([playedAt])
+}
+
+model RoundPlayer {
+  id         Int         @id @default(autoincrement())
+  roundId    Int
+  playerId   Int
+  round      Round       @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  player     Player      @relation(fields: [playerId], references: [id], onDelete: Restrict)
+  holeScores HoleScore[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  @@unique([roundId, playerId])
+  @@index([playerId])
+}
+
+model HoleScore {
+  id            Int         @id @default(autoincrement())
+  roundPlayerId Int
+  holeId        Int
+  strokes       Int
+  roundPlayer   RoundPlayer @relation(fields: [roundPlayerId], references: [id], onDelete: Cascade)
+  hole          Hole        @relation(fields: [holeId], references: [id], onDelete: Restrict)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@unique([roundPlayerId, holeId])
+  @@index([holeId])
+}

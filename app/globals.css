@@ -1,0 +1,720 @@
+:root {
+  color-scheme: light;
+  --bg: #f6f0e5;
+  --panel: rgba(255, 250, 242, 0.88);
+  --panel-strong: #fff8ef;
+  --text: #2d241c;
+  --muted: #6b5b49;
+  --line: rgba(62, 42, 27, 0.14);
+  --accent: #0f766e;
+  --accent-soft: rgba(15, 118, 110, 0.12);
+  --shadow: 0 24px 60px rgba(87, 59, 33, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(230, 201, 157, 0.55), transparent 26%),
+    radial-gradient(circle at top right, rgba(136, 188, 170, 0.4), transparent 28%),
+    linear-gradient(180deg, #fbf6ee 0%, var(--bg) 100%);
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page-shell {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 56px 0 80px;
+}
+
+.hero {
+  padding: 40px;
+  border: 1px solid var(--line);
+  border-radius: 32px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: var(--accent);
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  margin: 0;
+  line-height: 1;
+}
+
+.hero h1 {
+  max-width: 12ch;
+  font-size: clamp(2.8rem, 5vw, 5.6rem);
+}
+
+.hero-copy {
+  max-width: 62ch;
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.detail-links {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.detail-links form,
+.card-actions form {
+  margin: 0;
+}
+
+.stat-label {
+  color: var(--muted);
+}
+
+.stat-label {
+  display: block;
+  margin-bottom: 12px;
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.stat-value {
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1;
+}
+
+.scoreboard-shell {
+  margin-top: 24px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: rgba(255, 252, 247, 0.9);
+  box-shadow: var(--shadow);
+}
+
+.scoreboard-scroll {
+  overflow-x: auto;
+}
+
+.scoreboard-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.scoreboard-shell .scoreboard-table {
+  min-width: 1040px;
+}
+
+.scoreboard-table col.col-course {
+  width: 220px;
+}
+
+.scoreboard-table col.col-score {
+  width: 78px;
+}
+
+.scoreboard-table col.col-rounds {
+  width: 26px;
+}
+
+.scoreboard-table col.col-aces {
+  width: 38px;
+}
+
+.scoreboard-table th,
+.scoreboard-table td {
+  padding: 10px 12px;
+  border: 1px solid rgba(62, 42, 27, 0.12);
+  text-align: center;
+}
+
+.scoreboard-table .rounds-col {
+  width: 26px;
+  min-width: 26px;
+  max-width: 26px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.scoreboard-table thead th {
+  background: rgba(214, 233, 228, 0.62);
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.scoreboard-table thead tr:first-child th {
+  background: rgba(15, 118, 110, 0.12);
+}
+
+.scoreboard-table tbody th {
+  min-width: 220px;
+  background: rgba(255, 255, 255, 0.62);
+  text-align: left;
+  font-weight: 700;
+}
+
+.course-link {
+  text-decoration: underline;
+  text-decoration-color: rgba(15, 118, 110, 0.32);
+  text-underline-offset: 0.18em;
+}
+
+.course-link:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+
+.scoreboard-table tbody td {
+  background: rgba(255, 248, 239, 0.74);
+  font-variant-numeric: tabular-nums;
+}
+
+.scoreboard-table td.score-good {
+  background: rgba(47, 133, 90, 0.18);
+}
+
+.scoreboard-table td.score-bad {
+  background: rgba(192, 57, 43, 0.16);
+}
+
+.scoreboard-table .aces-divider {
+  border-left: 3px solid rgba(45, 36, 28, 0.92);
+}
+
+.scoreboard-table tbody td.aces-divider,
+.scoreboard-table tbody td:nth-last-child(-n + 4) {
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+.scoreboard-table thead th:nth-last-child(-n + 4) {
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+.round-form {
+  display: grid;
+  gap: 24px;
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 40px;
+  border: 1px solid var(--line);
+  border-radius: 32px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.round-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.field {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--panel-strong);
+  box-shadow: var(--shadow);
+}
+
+.field span {
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.field select,
+.field input,
+.field textarea,
+.scorecard-table input {
+  width: 100%;
+  border: 1px solid rgba(62, 42, 27, 0.18);
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: #fffdfa;
+  color: var(--text);
+  font: inherit;
+}
+
+.field-wide {
+  grid-column: 1 / -1;
+}
+
+.form-error,
+.empty-state {
+  margin: 0;
+  padding: 16px 18px;
+  border: 1px solid rgba(157, 36, 36, 0.18);
+  border-radius: 18px;
+  background: rgba(157, 36, 36, 0.08);
+  color: #8a1f1f;
+}
+
+.scorecard-shell {
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: rgba(255, 252, 247, 0.78);
+  box-shadow: var(--shadow);
+}
+
+.round-history {
+  display: grid;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.difficulty-toggle {
+  display: inline-flex;
+  gap: 10px;
+  margin-top: 24px;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 252, 247, 0.82);
+  box-shadow: var(--shadow);
+}
+
+.toggle-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 92px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.toggle-chip.is-active {
+  background: var(--accent);
+  color: white;
+}
+
+.round-card {
+  display: grid;
+  gap: 18px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: rgba(255, 252, 247, 0.82);
+  box-shadow: var(--shadow);
+}
+
+.round-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.round-card-header h2 {
+  margin: 0;
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+}
+
+.round-card-copy {
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+
+.theme-easy .spreadsheet-card {
+  border-color: rgba(68, 126, 168, 0.22);
+  background: rgba(238, 247, 255, 0.76);
+}
+
+.theme-hard .spreadsheet-card {
+  border-color: rgba(190, 152, 39, 0.22);
+  background: rgba(255, 249, 225, 0.76);
+}
+
+.spreadsheet-card {
+  display: grid;
+  gap: 18px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+}
+
+.spreadsheet-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.spreadsheet-header h2 {
+  margin: 0;
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+}
+
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.spreadsheet-wrap {
+  overflow-x: hidden;
+}
+
+.spreadsheet-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  background: rgba(255, 253, 249, 0.82);
+}
+
+.spreadsheet-table th,
+.spreadsheet-table td {
+  min-width: 0;
+  padding: 8px 4px;
+  border: 1px solid rgba(62, 42, 27, 0.14);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9rem;
+}
+
+.spreadsheet-table th {
+  width: 112px;
+  background: rgba(255, 255, 255, 0.7);
+  text-align: left;
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.player-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.winner-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: #16a34a;
+}
+
+.winner-check {
+  width: 7px;
+  height: 12px;
+  border-right: 3px solid white;
+  border-bottom: 3px solid white;
+  transform: rotate(45deg) translateY(-1px);
+}
+
+.spreadsheet-table .par-row th,
+.spreadsheet-table .par-row td {
+  border-width: 3px;
+  font-weight: 700;
+}
+
+.theme-easy .spreadsheet-table .par-row th,
+.theme-easy .spreadsheet-table .par-row td {
+  background: rgba(214, 232, 248, 0.82);
+}
+
+.theme-hard .spreadsheet-table .par-row th,
+.theme-hard .spreadsheet-table .par-row td {
+  background: rgba(245, 229, 170, 0.78);
+}
+
+.spreadsheet-table .total-cell {
+  width: 64px;
+  font-weight: 700;
+}
+
+.score-notation {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-width: 26px;
+  min-height: 26px;
+  padding: 0 4px;
+  border: 2px solid currentColor;
+  color: var(--text);
+  line-height: 1;
+  background: rgba(255, 253, 249, 0.92);
+}
+
+.score-notation.circle {
+  border-radius: 999px;
+}
+
+.score-notation.square {
+  border-radius: 0;
+}
+
+.score-notation.depth-2::before,
+.score-notation.depth-3::before,
+.score-notation.depth-3::after {
+  content: "";
+  position: absolute;
+  border: 2px solid currentColor;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.score-notation.depth-2::before,
+.score-notation.depth-3::before {
+  inset: -6px;
+}
+
+.score-notation.depth-3::after {
+  inset: -10px;
+}
+
+.scorecard-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.scorecard-summary div {
+  padding: 18px;
+  border-radius: 20px;
+  background: var(--accent-soft);
+}
+
+.scorecard-summary strong {
+  font-size: 1.45rem;
+}
+
+.scorecard-table-wrap {
+  overflow-x: auto;
+}
+
+.scorecard-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 560px;
+}
+
+.scorecard-table th,
+.scorecard-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--line);
+  text-align: center;
+}
+
+.scorecard-table th:first-child,
+.scorecard-table td:first-child {
+  text-align: left;
+}
+
+.scorecard-table thead th {
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.scorecard-table tfoot th {
+  padding-top: 18px;
+}
+
+.scorecard-table input {
+  min-width: 72px;
+  text-align: center;
+}
+
+.scorecard-entry-table {
+  min-width: 0;
+  table-layout: fixed;
+}
+
+.scorecard-entry-table th,
+.scorecard-entry-table td {
+  padding: 8px 4px;
+  border: 1px solid rgba(62, 42, 27, 0.12);
+}
+
+.scorecard-entry-table th {
+  width: 104px;
+  background: rgba(255, 255, 255, 0.72);
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 0.76rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.scorecard-entry-table td {
+  min-width: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.scorecard-entry-table .par-row th,
+.scorecard-entry-table .par-row td {
+  border-width: 3px;
+  font-weight: 700;
+  background: rgba(214, 233, 228, 0.42);
+}
+
+.scorecard-entry-table input {
+  min-width: 0;
+  width: 100%;
+  padding: 8px 6px;
+  border-radius: 10px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.scorecard-entry-table input:focus {
+  outline: 2px solid rgba(15, 118, 110, 0.24);
+  border-color: rgba(15, 118, 110, 0.48);
+}
+
+.scorecard-total-cell {
+  width: 56px;
+  font-weight: 700;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.primary-button,
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 12px 18px;
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  transition: transform 140ms ease, background-color 140ms ease;
+}
+
+.primary-button {
+  border: none;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+}
+
+.text-link {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.danger-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(157, 36, 36, 0.22);
+  border-radius: 999px;
+  padding: 12px 18px;
+  background: rgba(157, 36, 36, 0.08);
+  color: #8a1f1f;
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 140ms ease, background-color 140ms ease;
+}
+
+.primary-button:hover,
+.text-link:hover,
+.danger-button:hover {
+  transform: translateY(-1px);
+}
+
+.danger-button:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+@media (max-width: 720px) {
+  .page-shell {
+    width: min(100% - 20px, 1180px);
+    padding-top: 24px;
+  }
+
+  .hero,
+  .form-header,
+  .round-card,
+  .spreadsheet-card,
+  .scorecard-shell,
+  .scoreboard-shell {
+    padding: 22px;
+    border-radius: 24px;
+  }
+
+  .form-header,
+  .round-card-header,
+  .spreadsheet-header,
+  .round-form-grid,
+  .scorecard-summary {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+
+  .scoreboard-shell .scoreboard-table {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .form-actions {
+    justify-content: stretch;
+  }
+
+  .primary-button {
+    width: 100%;
+  }
+}
