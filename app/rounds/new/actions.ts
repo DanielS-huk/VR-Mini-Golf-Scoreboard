@@ -155,7 +155,6 @@ function revalidateRoundViews(courseGroupId: number, difficulty: "EASY" | "HARD"
   revalidatePath(`/courses/${courseGroupId}?difficulty=${difficulty}`);
 
   if (roundId) {
-    revalidatePath(`/rounds/${roundId}`);
     revalidatePath(`/rounds/${roundId}/edit`);
   }
 }
@@ -185,7 +184,7 @@ export async function createRound(
   });
 
   revalidateRoundViews(parsed.courseGroupId, parsed.difficulty, roundId);
-  redirect(`/rounds/${roundId}`);
+  redirect(`/courses/${parsed.courseGroupId}?difficulty=${parsed.difficulty}`);
 }
 
 export async function updateRound(
@@ -237,7 +236,7 @@ export async function updateRound(
 
   revalidateRoundViews(existingRound.courseLayout.courseGroupId, existingRound.courseLayout.difficulty, parsedRoundId);
   revalidateRoundViews(parsed.courseGroupId, parsed.difficulty, parsedRoundId);
-  redirect(`/rounds/${parsedRoundId}`);
+  redirect(`/courses/${parsed.courseGroupId}?difficulty=${parsed.difficulty}`);
 }
 
 export async function deleteRound(roundId: number, redirectTo: string) {

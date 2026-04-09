@@ -166,9 +166,6 @@ export default async function CoursePage({ params, searchParams }: CoursePagePro
                     <Link className="text-link" href={`/rounds/${round.id}/edit`}>
                       Edit
                     </Link>
-                    <Link className="text-link" href={`/rounds/${round.id}`}>
-                      Open round page
-                    </Link>
                     <DeleteRoundButton
                       action={deleteRound.bind(
                         null,
