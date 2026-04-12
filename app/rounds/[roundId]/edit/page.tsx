@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { updateRound } from "@/app/rounds/new/actions";
 import { RoundEntryForm } from "@/app/rounds/new/round-entry-form";
+import { requireAdmin } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +12,7 @@ type EditRoundPageProps = {
 
 export default async function EditRoundPage({ params }: EditRoundPageProps) {
   const { roundId } = await params;
+  await requireAdmin(`/rounds/${roundId}/edit`);
   const parsedRoundId = Number(roundId);
 
   if (!Number.isInteger(parsedRoundId) || parsedRoundId <= 0) {

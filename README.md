@@ -10,6 +10,18 @@ Next.js app for tracking two-player mini golf rounds, course history, personal b
 - Prisma
 - PostgreSQL
 
+## Admin Access
+
+The app supports a single admin login. Set these environment variables both locally and in Vercel:
+
+```env
+ADMIN_USERNAME="admin"
+ADMIN_PASSWORD="replace-with-a-strong-password"
+SESSION_SECRET="replace-with-a-long-random-secret"
+```
+
+Only the admin account can add, edit, or delete rounds.
+
 ## Local Setup
 
 1. Install dependencies:
@@ -23,6 +35,9 @@ Next.js app for tracking two-player mini golf rounds, course history, personal b
    ```env
    POSTGRES_PRISMA_URL="postgresql://USER:PASSWORD@HOST:5432/mini_golf_score_tracker?schema=public"
    POSTGRES_URL_NON_POOLING="postgresql://USER:PASSWORD@HOST:5432/mini_golf_score_tracker?schema=public"
+   ADMIN_USERNAME="admin"
+   ADMIN_PASSWORD="replace-with-a-strong-password"
+   SESSION_SECRET="replace-with-a-long-random-secret"
    ```
 
 3. Apply the schema:

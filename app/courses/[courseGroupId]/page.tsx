@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DeleteRoundButton } from "@/app/rounds/delete-round-button";
+import { LogoutButton } from "@/app/auth/logout-button";
 import { deleteRound } from "@/app/rounds/new/actions";
 import { getCourseDisplayName, getLayoutDisplayName } from "@/lib/course-display";
+import { isAdminAuthenticated } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -43,7 +45,8 @@ export default async function CoursePage({ params, searchParams }: CoursePagePro
 
   const selectedDifficulty = resolvedSearchParams?.difficulty === "HARD" ? "HARD" : "EASY";
 
-  const courseGroup = await prisma.courseGroup.findUnique({
+  const [courseGroup, isAdmin] = await Promise.all([
+    prisma.courseGroup.findUnique({
     where: { id: parsedCourseGroupId },
     include: {
       layouts: {
@@ -86,7 +89,9 @@ export default async function CoursePage({ params, searchParams }: CoursePagePro
         },
       },
     },
-  });
+    }),
+    isAdminAuthenticated(),
+  ]);
 
   if (!courseGroup) {
     notFound();
@@ -109,9 +114,18 @@ export default async function CoursePage({ params, searchParams }: CoursePagePro
           <Link className="text-link" href="/">
             Return home
           </Link>
-          <Link className="primary-button" href={`/rounds/new?layoutId=${layout.id}`}>
-            Enter a round
-          </Link>
+          {isAdmin ? (
+            <>
+              <Link className="primary-button" href={`/rounds/new?layoutId=${layout.id}`}>
+                Enter a round
+              </Link>
+              <LogoutButton />
+            </>
+          ) : (
+            <Link className="text-link" href={`/login?next=${encodeURIComponent(`/courses/${courseGroup.id}?difficulty=${selectedDifficulty}`)}`}>
+              Admin login
+            </Link>
+          )}
         </div>
       </section>
 
@@ -165,17 +179,21 @@ export default async function CoursePage({ params, searchParams }: CoursePagePro
                     <p className="round-card-copy">{round.notes ?? ""}</p>
                   </div>
                   <div className="card-actions">
-                    <Link className="text-link" href={`/rounds/${round.id}/edit`}>
-                      Edit
-                    </Link>
-                    <DeleteRoundButton
-                      action={deleteRound.bind(
-                        null,
-                        round.id,
-                        `/courses/${courseGroup.id}?difficulty=${selectedDifficulty}`,
-                      )}
-                      className="danger-button"
-                    />
+                    {isAdmin ? (
+                      <>
+                        <Link className="text-link" href={`/rounds/${round.id}/edit`}>
+                          Edit
+                        </Link>
+                        <DeleteRoundButton
+                          action={deleteRound.bind(
+                            null,
+                            round.id,
+                            `/courses/${courseGroup.id}?difficulty=${selectedDifficulty}`,
+                          )}
+                          className="danger-button"
+                        />
+                      </>
+                    ) : null}
                   </div>
                 </div>
 

@@ -1,3 +1,4 @@
+import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { createRound } from "./actions";
 import { RoundEntryForm } from "./round-entry-form";
@@ -9,6 +10,8 @@ type NewRoundPageProps = {
 };
 
 export default async function NewRoundPage({ searchParams }: NewRoundPageProps) {
+  await requireAdmin("/rounds/new");
+
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
   const [layouts, players] = await Promise.all([
     prisma.courseLayout.findMany({

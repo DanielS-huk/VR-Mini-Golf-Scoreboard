@@ -3,6 +3,7 @@
 import type { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export type RoundActionState = {
@@ -163,6 +164,8 @@ export async function createRound(
   _prevState: RoundActionState,
   formData: FormData,
 ): Promise<RoundActionState> {
+  await requireAdmin("/rounds/new");
+
   const parsed = await parseRoundSubmission(formData);
 
   if ("error" in parsed) {
@@ -192,6 +195,8 @@ export async function updateRound(
   _prevState: RoundActionState,
   formData: FormData,
 ): Promise<RoundActionState> {
+  await requireAdmin(`/rounds/${roundId}/edit`);
+
   const parsedRoundId = Number(roundId);
 
   if (!Number.isInteger(parsedRoundId) || parsedRoundId <= 0) {
@@ -240,6 +245,8 @@ export async function updateRound(
 }
 
 export async function deleteRound(roundId: number, redirectTo: string) {
+  await requireAdmin(redirectTo);
+
   const parsedRoundId = Number(roundId);
 
   if (!Number.isInteger(parsedRoundId) || parsedRoundId <= 0) {

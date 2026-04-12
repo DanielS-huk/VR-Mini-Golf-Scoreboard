@@ -245,6 +245,17 @@ a {
   gap: 16px;
 }
 
+.login-shell {
+  display: grid;
+  place-items: center;
+}
+
+.login-card {
+  width: min(100%, 520px);
+  display: grid;
+  gap: 16px;
+}
+
 .field {
   display: grid;
   gap: 10px;

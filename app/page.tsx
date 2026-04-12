@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { getCourseDisplayName } from "@/lib/course-display";
+import { LogoutButton } from "@/app/auth/logout-button";
+import { isAdminAuthenticated } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -138,7 +140,7 @@ function getCourseSortIndex(name: string) {
 }
 
 export default async function HomePage() {
-  const [courseGroups, players] = await Promise.all([
+  const [courseGroups, players, isAdmin] = await Promise.all([
     prisma.courseGroup.findMany({
       include: {
         layouts: {
@@ -170,6 +172,7 @@ export default async function HomePage() {
         name: "asc",
       },
     }),
+    isAdminAuthenticated(),
   ]);
   const [firstPlayer, secondPlayer] = players;
 
@@ -248,9 +251,18 @@ export default async function HomePage() {
           
         </p>
         <div className="detail-links">
-          <Link className="primary-button" href="/rounds/new">
-            Enter a round
-          </Link>
+          {isAdmin ? (
+            <>
+              <Link className="primary-button" href="/rounds/new">
+                Enter a round
+              </Link>
+              <LogoutButton />
+            </>
+          ) : (
+            <Link className="text-link" href="/login">
+              Admin login
+            </Link>
+          )}
         </div>
       </section>
 
