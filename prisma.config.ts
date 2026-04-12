@@ -41,16 +41,20 @@ for (const [key, value] of Object.entries(envFromFile)) {
 }
 
 const fallbackDatabaseUrl = process.env.DATABASE_URL ?? envFromFile.DATABASE_URL ?? "";
+const pooledDatabaseUrl =
+  process.env.POSTGRES_PRISMA_URL ?? process.env.POSTGRES_URL ?? fallbackDatabaseUrl;
+const directDatabaseUrl =
+  process.env.POSTGRES_URL_NON_POOLING ?? process.env.POSTGRES_URL ?? fallbackDatabaseUrl;
 
-if (!process.env.POSTGRES_PRISMA_URL && fallbackDatabaseUrl) {
-  process.env.POSTGRES_PRISMA_URL = fallbackDatabaseUrl;
+if (!process.env.POSTGRES_PRISMA_URL && pooledDatabaseUrl) {
+  process.env.POSTGRES_PRISMA_URL = pooledDatabaseUrl;
 }
 
-if (!process.env.POSTGRES_URL_NON_POOLING && fallbackDatabaseUrl) {
-  process.env.POSTGRES_URL_NON_POOLING = fallbackDatabaseUrl;
+if (!process.env.POSTGRES_URL_NON_POOLING && directDatabaseUrl) {
+  process.env.POSTGRES_URL_NON_POOLING = directDatabaseUrl;
 }
 
-const prismaUrl = process.env.POSTGRES_PRISMA_URL ?? "";
+const prismaUrl = process.env.POSTGRES_PRISMA_URL ?? pooledDatabaseUrl;
 
 export default defineConfig({
   schema: "prisma/schema.prisma",
