@@ -728,4 +728,35 @@ a {
   .primary-button {
     width: 100%;
   }
+
+  .spreadsheet-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 6px;
+  }
+
+  .spreadsheet-table {
+    min-width: 980px;
+    table-layout: auto;
+  }
+
+  .spreadsheet-table th,
+  .spreadsheet-table td {
+    white-space: nowrap;
+  }
+
+  .spreadsheet-table th {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.94);
+  }
+
+  .theme-easy .spreadsheet-table .par-row th {
+    background: rgba(214, 232, 248, 0.96);
+  }
+
+  .theme-hard .spreadsheet-table .par-row th {
+    background: rgba(245, 229, 170, 0.96);
+  }
 }
