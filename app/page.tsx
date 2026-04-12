@@ -2,6 +2,8 @@ import Link from "next/link";
 import { getCourseDisplayName } from "@/lib/course-display";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 const courseDisplayOrder = [
   "Tourist Trap",
   "Cherry Blossom",

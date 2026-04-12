@@ -5,6 +5,8 @@ import { deleteRound } from "@/app/rounds/new/actions";
 import { getCourseDisplayName, getLayoutDisplayName } from "@/lib/course-display";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 type CoursePageProps = {
   params: Promise<{ courseGroupId: string }>;
   searchParams?: Promise<{ difficulty?: string }>;

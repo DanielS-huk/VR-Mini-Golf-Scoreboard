@@ -3,11 +3,13 @@ import { prisma } from "@/lib/prisma";
 import { updateRound } from "@/app/rounds/new/actions";
 import { RoundEntryForm } from "@/app/rounds/new/round-entry-form";
 
-export default async function EditRoundPage({
-  params,
-}: {
+export const dynamic = "force-dynamic";
+
+type EditRoundPageProps = {
   params: Promise<{ roundId: string }>;
-}) {
+};
+
+export default async function EditRoundPage({ params }: EditRoundPageProps) {
   const { roundId } = await params;
   const parsedRoundId = Number(roundId);
 
@@ -15,7 +17,36 @@ export default async function EditRoundPage({
     notFound();
   }
 
-  const [layouts, players, round] = await Promise.all([
+  const [round, layouts, players] = await Promise.all([
+    prisma.round.findUnique({
+      where: { id: parsedRoundId },
+      include: {
+        players: {
+          include: {
+            holeScores: {
+              include: {
+                hole: true,
+              },
+              orderBy: {
+                hole: {
+                  number: "asc",
+                },
+              },
+            },
+            player: true,
+          },
+        },
+        courseLayout: {
+          include: {
+            holes: {
+              orderBy: {
+                number: "asc",
+              },
+            },
+          },
+        },
+      },
+    }),
     prisma.courseLayout.findMany({
       include: {
         courseGroup: true,
@@ -32,63 +63,36 @@ export default async function EditRoundPage({
         name: "asc",
       },
     }),
-    prisma.round.findUnique({
-      where: { id: parsedRoundId },
-      include: {
-        courseLayout: {
-          include: {
-            holes: {
-              orderBy: {
-                number: "asc",
-              },
-            },
-          },
-        },
-        players: {
-          include: {
-            holeScores: {
-              orderBy: {
-                hole: {
-                  number: "asc",
-                },
-              },
-            },
-          },
-        },
-      },
-    }),
   ]);
 
   if (!round) {
     notFound();
   }
 
-  const initialScores = Object.fromEntries(
-    round.players.map((roundPlayer) => [
-      roundPlayer.playerId,
-      Object.fromEntries(
-        roundPlayer.holeScores.map((holeScore) => [holeScore.holeId, String(holeScore.strokes)]),
-      ),
-    ]),
-  );
-
-  const boundUpdateRound = updateRound.bind(null, parsedRoundId);
+  const initialScoresByLayout = {
+    [round.courseLayoutId]: Object.fromEntries(
+      round.players.map((roundPlayer) => [
+        String(roundPlayer.playerId),
+        Object.fromEntries(
+          roundPlayer.holeScores.map((holeScore) => [String(holeScore.holeId), String(holeScore.strokes)]),
+        ),
+      ]),
+    ),
+  };
 
   return (
     <main className="page-shell">
       <RoundEntryForm
         layouts={layouts}
         players={players}
-        action={boundUpdateRound}
+        action={updateRound.bind(null, round.id)}
         initialSelectedLayoutId={String(round.courseLayoutId)}
         initialPlayedAt={round.playedAt.toISOString().slice(0, 10)}
         initialNotes={round.notes ?? ""}
-        initialScoresByLayout={{
-          [String(round.courseLayoutId)]: initialScores,
-        }}
+        initialScoresByLayout={initialScoresByLayout}
         heading="Edit Round"
         description=""
-        submitLabel="Update round"
+        submitLabel="Save changes"
       />
     </main>
   );

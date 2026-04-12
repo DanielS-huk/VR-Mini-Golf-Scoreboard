@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { createRound } from "./actions";
 import { RoundEntryForm } from "./round-entry-form";
 
+export const dynamic = "force-dynamic";
+
 type NewRoundPageProps = {
   searchParams?: Promise<{ layoutId?: string }>;
 };

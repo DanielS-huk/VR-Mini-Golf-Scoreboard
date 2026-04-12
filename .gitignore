@@ -10,3 +10,6 @@ prisma/backups/
 .prisma
 .next
 *.tsbuildinfo
+
+.vercel
+.env*.local
