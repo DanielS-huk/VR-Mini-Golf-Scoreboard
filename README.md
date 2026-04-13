@@ -94,3 +94,13 @@ npm run db:import-backup
 ```
 
 The import script expects an empty database and preserves the existing IDs and relationships so the current app data carries over cleanly.
+
+## Local Backups
+
+To save a local JSON backup of the current database:
+
+```powershell
+npm run db:export-backup
+```
+
+That writes backup files into `prisma/backups/`.

@@ -49,11 +49,18 @@ type BackupData = {
   }>;
 };
 
-const backupPath = path.join(process.cwd(), "prisma", "backups", "sqlite-export.json");
+const backupCandidates = [
+  path.join(process.cwd(), "prisma", "backups", "latest-backup.json"),
+  path.join(process.cwd(), "prisma", "backups", "sqlite-export.json"),
+];
 
 function loadBackup(): BackupData {
-  if (!fs.existsSync(backupPath)) {
-    throw new Error(`Backup file not found at ${backupPath}`);
+  const backupPath = backupCandidates.find((candidate) => fs.existsSync(candidate));
+
+  if (!backupPath) {
+    throw new Error(
+      `Backup file not found. Expected one of: ${backupCandidates.join(", ")}`,
+    );
   }
 
   return JSON.parse(fs.readFileSync(backupPath, "utf8")) as BackupData;
