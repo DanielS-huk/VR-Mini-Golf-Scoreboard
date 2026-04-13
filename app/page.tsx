@@ -242,6 +242,83 @@ export default async function HomePage() {
     return left.name.localeCompare(right.name);
   });
 
+  const personalBestTotalsByPlayer = new Map<number, number | null>();
+  const personalBestTotalsByDifficulty = {
+    EASY: new Map<number, number | null>(),
+    HARD: new Map<number, number | null>(),
+  } satisfies Record<DifficultyKey, Map<number, number | null>>;
+  const totalWinsByDifficulty = {
+    EASY: new Map<number, number>(),
+    HARD: new Map<number, number>(),
+  } satisfies Record<DifficultyKey, Map<number, number>>;
+
+  for (const player of players) {
+    totalWinsByDifficulty.EASY.set(player.id, 0);
+    totalWinsByDifficulty.HARD.set(player.id, 0);
+  }
+
+  for (const player of players) {
+    let total = 0;
+    let hasAnyScores = false;
+    let easyTotal = 0;
+    let easyHasAnyScores = false;
+    let hardTotal = 0;
+    let hardHasAnyScores = false;
+
+    for (const row of rows) {
+      const easyValue = row.easy.bestVsParByPlayer.get(player.id) ?? null;
+      const hardValue = row.hard.bestVsParByPlayer.get(player.id) ?? null;
+
+      if (easyValue !== null) {
+        total += easyValue;
+        hasAnyScores = true;
+        easyTotal += easyValue;
+        easyHasAnyScores = true;
+      }
+
+      if (hardValue !== null) {
+        total += hardValue;
+        hasAnyScores = true;
+        hardTotal += hardValue;
+        hardHasAnyScores = true;
+      }
+    }
+
+    personalBestTotalsByPlayer.set(player.id, hasAnyScores ? total : null);
+    personalBestTotalsByDifficulty.EASY.set(player.id, easyHasAnyScores ? easyTotal : null);
+    personalBestTotalsByDifficulty.HARD.set(player.id, hardHasAnyScores ? hardTotal : null);
+  }
+
+  for (const courseGroup of courseGroups) {
+    for (const layout of courseGroup.layouts) {
+      const difficulty = layout.difficulty as DifficultyKey;
+
+      for (const round of layout.rounds) {
+        const playerTotals = round.players.map((roundPlayer) => ({
+          playerId: roundPlayer.playerId,
+          total: roundPlayer.holeScores.reduce((sum, score) => sum + score.strokes, 0),
+        }));
+
+        if (playerTotals.length < 2) {
+          continue;
+        }
+
+        const bestTotal = Math.min(...playerTotals.map((entry) => entry.total));
+        const winners = playerTotals.filter((entry) => entry.total === bestTotal);
+
+        if (winners.length !== 1) {
+          continue;
+        }
+
+        const winner = winners[0];
+        totalWinsByDifficulty[difficulty].set(
+          winner.playerId,
+          (totalWinsByDifficulty[difficulty].get(winner.playerId) ?? 0) + 1,
+        );
+      }
+    }
+  }
+
   return (
     <main className="page-shell">
       <section className="hero">
@@ -394,6 +471,90 @@ export default async function HomePage() {
             </tbody>
           </table>
         </div>
+      </section>
+
+      <section className="dashboard-stats-grid">
+        <section className="mini-stats-shell">
+          <table className="mini-stats-table">
+            <thead>
+              <tr>
+                <th colSpan={players.length + 1}>Net Over/Under Par</th>
+              </tr>
+              <tr>
+                <th />
+                {players.map((player) => (
+                  <th key={`net-total-header-${player.id}`}>{player.name}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {(["EASY", "HARD"] as const).map((difficulty) => {
+                const values = players.map(
+                  (player) => personalBestTotalsByDifficulty[difficulty].get(player.id) ?? null,
+                );
+
+                return (
+                  <tr key={`net-row-${difficulty}`}>
+                    <th>{difficulty === "EASY" ? "Easy" : "Hard"}</th>
+                    {players.map((player) => {
+                      const value = personalBestTotalsByDifficulty[difficulty].get(player.id) ?? null;
+
+                      return (
+                        <td
+                          key={`net-cell-${difficulty}-${player.id}`}
+                          className={getScoreClass(value, values)}
+                        >
+                          {formatVsPar(value)}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </section>
+
+        <section className="mini-stats-shell">
+          <table className="mini-stats-table">
+            <thead>
+              <tr>
+                <th colSpan={players.length + 1}>Total Wins</th>
+              </tr>
+              <tr>
+                <th />
+                {players.map((player) => (
+                  <th key={`wins-header-${player.id}`}>{player.name}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {(["EASY", "HARD"] as const).map((difficulty) => {
+                const values = players.map(
+                  (player) => totalWinsByDifficulty[difficulty].get(player.id) ?? 0,
+                );
+
+                return (
+                  <tr key={`wins-row-${difficulty}`}>
+                    <th>{difficulty === "EASY" ? "Easy" : "Hard"}</th>
+                    {players.map((player) => {
+                      const value = totalWinsByDifficulty[difficulty].get(player.id) ?? 0;
+
+                      return (
+                        <td
+                          key={`wins-cell-${difficulty}-${player.id}`}
+                          className={getScoreClass(-value, values.map((entry) => (entry === 0 ? 0 : -entry)))}
+                        >
+                          {value}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </section>
       </section>
     </main>
   );

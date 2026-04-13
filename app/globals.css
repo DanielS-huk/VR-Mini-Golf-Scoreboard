@@ -123,6 +123,66 @@ a {
   overflow-x: auto;
 }
 
+.dashboard-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.mini-stats-shell {
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: rgba(255, 252, 247, 0.9);
+  box-shadow: var(--shadow);
+}
+
+.mini-stats-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.mini-stats-table th,
+.mini-stats-table td {
+  padding: 10px 12px;
+  border: 1px solid rgba(62, 42, 27, 0.14);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.mini-stats-table thead th {
+  background: rgba(214, 233, 228, 0.62);
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.mini-stats-table thead tr:first-child th {
+  background: rgba(15, 118, 110, 0.12);
+  text-align: left;
+}
+
+.mini-stats-table tbody th {
+  background: rgba(255, 255, 255, 0.62);
+  text-align: left;
+  font-weight: 700;
+}
+
+.mini-stats-table tbody td {
+  background: rgba(255, 248, 239, 0.74);
+}
+
+.mini-stats-table td.score-good {
+  background: rgba(47, 133, 90, 0.18);
+}
+
+.mini-stats-table td.score-bad {
+  background: rgba(192, 57, 43, 0.16);
+}
+
 .scoreboard-table {
   width: 100%;
   border-collapse: collapse;
@@ -719,6 +779,10 @@ a {
   .scoreboard-shell .scoreboard-table {
     min-width: 0;
     width: 100%;
+  }
+
+  .dashboard-stats-grid {
+    grid-template-columns: 1fr;
   }
 
   .form-actions {
