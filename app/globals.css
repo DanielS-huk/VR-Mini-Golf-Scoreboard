@@ -138,6 +138,32 @@ a {
   box-shadow: var(--shadow);
 }
 
+.mini-stats-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.mini-stats-title {
+  margin: 0;
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.mini-stats-link {
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #4355d6;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
 .mini-stats-table {
   width: 100%;
   border-collapse: collapse;
@@ -160,11 +186,6 @@ a {
   text-transform: uppercase;
 }
 
-.mini-stats-table thead tr:first-child th {
-  background: rgba(15, 118, 110, 0.12);
-  text-align: left;
-}
-
 .mini-stats-table tbody th {
   background: rgba(255, 255, 255, 0.62);
   text-align: left;
@@ -181,6 +202,116 @@ a {
 
 .mini-stats-table td.score-bad {
   background: rgba(192, 57, 43, 0.16);
+}
+
+.trend-grid {
+  display: grid;
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.trend-card {
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: rgba(255, 252, 247, 0.9);
+  box-shadow: var(--shadow);
+}
+
+.trend-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.trend-card-header h2 {
+  margin: 0;
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+}
+
+.trend-legend {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.trend-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.trend-legend-swatch {
+  width: 18px;
+  height: 18px;
+  border: 3px solid currentColor;
+  background: white;
+}
+
+.trend-chart-layout {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.trend-chart-frame {
+  display: grid;
+  gap: 12px;
+}
+
+.trend-chart {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.trend-axis-label {
+  margin: 0;
+  color: var(--muted);
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 0.92rem;
+}
+
+.trend-axis-y {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.trend-axis-x {
+  text-align: center;
+}
+
+.trend-axis-line {
+  stroke: rgba(45, 36, 28, 0.92);
+  stroke-width: 4;
+}
+
+.trend-grid-line {
+  stroke: rgba(62, 42, 27, 0.14);
+  stroke-width: 1.5;
+}
+
+.trend-zero-line {
+  stroke: rgba(62, 42, 27, 0.3);
+  stroke-width: 2;
+  stroke-dasharray: 8 8;
+}
+
+.trend-tick-label {
+  fill: var(--muted);
+  font-family: "Trebuchet MS", Verdana, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
 }
 
 .scoreboard-table {
@@ -783,6 +914,21 @@ a {
 
   .dashboard-stats-grid {
     grid-template-columns: 1fr;
+  }
+
+  .mini-stats-header,
+  .trend-card-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .trend-chart-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .trend-axis-y {
+    justify-content: flex-start;
+    text-align: left;
   }
 
   .form-actions {

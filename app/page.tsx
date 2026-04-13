@@ -475,11 +475,14 @@ export default async function HomePage() {
 
       <section className="dashboard-stats-grid">
         <section className="mini-stats-shell">
+          <div className="mini-stats-header">
+            <h2 className="mini-stats-title">Net Over/Under Par</h2>
+            <Link className="mini-stats-link" href="/stats/net-over-under-par">
+              View graphs
+            </Link>
+          </div>
           <table className="mini-stats-table">
             <thead>
-              <tr>
-                <th colSpan={players.length + 1}>Net Over/Under Par</th>
-              </tr>
               <tr>
                 <th />
                 {players.map((player) => (
@@ -516,11 +519,11 @@ export default async function HomePage() {
         </section>
 
         <section className="mini-stats-shell">
+          <div className="mini-stats-header">
+            <h2 className="mini-stats-title">Total Wins</h2>
+          </div>
           <table className="mini-stats-table">
             <thead>
-              <tr>
-                <th colSpan={players.length + 1}>Total Wins</th>
-              </tr>
               <tr>
                 <th />
                 {players.map((player) => (
